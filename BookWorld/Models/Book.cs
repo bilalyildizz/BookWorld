@@ -11,11 +11,12 @@ namespace BookWorld.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int? PageNumber { get; set; }
-        
+        public string Image  { get; set; }
+        [Range(1, int.MaxValue)]
+        public int Price { get; set; }
         public int AuthorId { get; set; }
         public int SubcategoryId { get; set; }
         public int? PublisherId { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? ReleaseDate { get; set; }
 
         public int TranslatorId { get; set; }
