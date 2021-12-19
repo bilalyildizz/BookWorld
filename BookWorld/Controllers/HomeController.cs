@@ -25,7 +25,10 @@ namespace BookWorld.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            if (User.IsInRole("admin"))
+                return View();
+            else
+                return View("home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

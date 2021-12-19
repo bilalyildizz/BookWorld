@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BookWorld.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext
     {
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }

@@ -22,6 +22,7 @@ namespace BookWorld.Controllers
         // GET: Author
         public async Task<IActionResult> Index()
         {
+            
             return View(await _context.Author.ToListAsync());
         }
 

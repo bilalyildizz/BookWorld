@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookWorld.Data;
 using BookWorld.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookWorld.Controllers
 {
@@ -20,6 +21,7 @@ namespace BookWorld.Controllers
         }
 
         // GET: Basket
+
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Basket.Include(b => b.Book).Include(b => b.Order);
