@@ -1,5 +1,9 @@
-﻿using BookWorld.Models;
+﻿using BookWorld.Data;
+using BookWorld.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +16,18 @@ namespace BookWorld.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext applicationDbContext)
         {
+            _context = applicationDbContext;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index ()
         {
-            return View();
+            var bookList = _context.Book.Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Subcategory).Include(b => b.Translator);
+            return View(await bookList.ToListAsync());
         }
 
         public IActionResult Privacy()
@@ -31,6 +38,15 @@ namespace BookWorld.Controllers
                 return View("home");
         }
 
+        [HttpPost]
+        public IActionResult CultureManagement(string culture,string returnUrl)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+            return LocalRedirect(returnUrl);
+        }
+     
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

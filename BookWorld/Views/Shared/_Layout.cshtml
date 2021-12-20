@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,19 +19,23 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">Kitap Dünyası</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Kitap Dünyası</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0 ms-lg-4">
 
 
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Ara">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ara</button>
+                        <input class="form-control mr-sm-2" type="search" placeholder=@localizer["Ara"] aria-label="Ara">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@localizer["Ara"]</button>
                     </form>
 
                 </ul>
+
+
                 <form class="d-flex">
                     <button class="btn btn-outline-dark" type="submit">
                         <i class="bi-cart-fill me-1"></i>
@@ -45,15 +51,37 @@
                     {
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ms-lg-4">
 
+
                             <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="">Profil</a></li>
 
                         </ul>
-
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Author" asp-action="Index">Yazar</a>
+                                <a class="dropdown-item" asp-controller="Basket" asp-action="Index">Sepet</a>
+                                <a class="dropdown-item" asp-controller="Book" asp-action="Index">Kitap</a>
+                                <a class="dropdown-item" asp-controller="Category" asp-action="Index">Kategori</a>
+                                <a class="dropdown-item" asp-controller="City" asp-action="Index">Şehir</a>
+                                <a class="dropdown-item" asp-controller="District" asp-action="Index">İlçe</a>
+                                <a class="dropdown-item" asp-controller="Order" asp-action="Index">Sipariş</a>
+                                <a class="dropdown-item" asp-controller="Publisher" asp-action="Index">Yayınevi</a>
+                                <a class="dropdown-item" asp-controller="Subcategory" asp-action="Index">Altkategori</a>
+                                <a class="dropdown-item" asp-controller="Translator" asp-action="Index">Çevirmen</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
 
                     }
                     else
                     {
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ms-lg-4">
+
 
                             <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="" asp-action="">Profil</a></li>
 
@@ -63,6 +91,11 @@
                 <partial name="_LoginPartial" />
             </div>
         </div>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ms-lg-4">
+            <li>
+                <partial name="_Culture" />
+            </li>
+        </ul>
     </nav>
     <div class="container">
         <main role="main" class="pb-3">

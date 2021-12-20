@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookWorld.Data;
 using BookWorld.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace BookWorld.Controllers
 {
     public class BookController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(ApplicationDbContext context)
+        public BookController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Book
@@ -51,10 +55,10 @@ namespace BookWorld.Controllers
         // GET: Book/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Author, "Id", "Id");
-            ViewData["PublisherId"] = new SelectList(_context.Publisher, "Id", "Id");
-            ViewData["SubcategoryId"] = new SelectList(_context.Subcategory, "Id", "Id");
-            ViewData["TranslatorId"] = new SelectList(_context.Translator, "Id", "Id");
+            ViewData["AuthorId"] = new SelectList(_context.Author, "Id", "Name");
+            ViewData["PublisherId"] = new SelectList(_context.Publisher, "Id", "Name");
+            ViewData["SubcategoryId"] = new SelectList(_context.Subcategory, "Id", "Name");
+            ViewData["TranslatorId"] = new SelectList(_context.Translator, "Id", "Name");
             return View();
         }
 
@@ -67,14 +71,30 @@ namespace BookWorld.Controllers
         {
             if (ModelState.IsValid)
             {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(webRootPath, @"images");
+                var extension = Path.GetExtension(files[0].FileName);
+
+                using (var fileStream =new FileStream(Path.Combine(uploads, fileName + extension),FileMode.Create))
+                {
+
+                    files[0].CopyTo(fileStream);
+
+                }
+                book.Image = @"\images\" + fileName + extension;
+
+
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Author, "Id", "Id", book.AuthorId);
-            ViewData["PublisherId"] = new SelectList(_context.Publisher, "Id", "Id", book.PublisherId);
-            ViewData["SubcategoryId"] = new SelectList(_context.Subcategory, "Id", "Id", book.SubcategoryId);
-            ViewData["TranslatorId"] = new SelectList(_context.Translator, "Id", "Id", book.TranslatorId);
+            ViewData["AuthorId"] = new SelectList(_context.Author, "Id", "Name", book.AuthorId);
+            ViewData["PublisherId"] = new SelectList(_context.Publisher, "Id", "Name", book.PublisherId);
+            ViewData["SubcategoryId"] = new SelectList(_context.Subcategory, "Id", "Name", book.SubcategoryId);
+            ViewData["TranslatorId"] = new SelectList(_context.Translator, "Id", "Name", book.TranslatorId);
             return View(book);
         }
 
