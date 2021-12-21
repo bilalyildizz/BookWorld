@@ -29,6 +29,49 @@ namespace BookWorld.Controllers
             var applicationDbContext = _context.Book.Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Subcategory).Include(b => b.Translator);
             return View(await applicationDbContext.ToListAsync());
         }
+        
+        public async Task<IActionResult> BookDetail(int? id)
+        {
+         
+
+            var book = await _context.Book
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.Subcategory)
+                .Include(b => b.Translator)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
+       
+        public async Task<IActionResult> BuyBook(UserBasketDto userBasketDto)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string Ara)
+        {
+            var result =  _context.Book
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.Subcategory)
+                .Include(b => b.Translator).Where(b => b.Name.Contains("clue") == true).ToList();
+                 return View("~/Views/Home/Index.cshtml",result);
+
+        }
+
+
+
+
+
+
 
         // GET: Book/Details/5
         public async Task<IActionResult> Details(int? id)

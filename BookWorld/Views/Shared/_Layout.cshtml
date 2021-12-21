@@ -25,16 +25,11 @@
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Kitap Dünyası</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto mb-2 mb-lg-0 ms-lg-4">
-
-
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder=@localizer["Ara"] aria-label="Ara">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@localizer["Ara"]</button>
-                    </form>
-
-                </ul>
-
+               
+                <form class="form-inline my-2 my-lg-0" asp-action="Search" asp-controller="Book" method="post>
+                    <input class="form-control mr-sm-2" type="search" asp-for="Ara" placeholder=@localizer["Ara"] aria-label="Ara">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@localizer["Ara"]</button>
+                </form>
 
                 <form class="d-flex">
                     <button class="btn btn-outline-dark" type="submit">

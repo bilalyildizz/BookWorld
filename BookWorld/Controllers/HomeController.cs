@@ -30,6 +30,21 @@ namespace BookWorld.Controllers
             return View(await bookList.ToListAsync());
         }
 
+        [HttpPost]
+        public IActionResult Index(string Ara)
+        {
+            var result = _context.Book
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.Subcategory)
+                .Include(b => b.Translator).Where(b => b.Name.Contains("clue") == true).ToList();
+            return View(result);
+
+
+
+        }
+
+
         public IActionResult Privacy()
         {
             if (User.IsInRole("admin"))
@@ -51,6 +66,11 @@ namespace BookWorld.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Deneme(int id)
+        {
+            return View("home");
         }
     }
 }
