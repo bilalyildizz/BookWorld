@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BookWorld.Models.Order>
+
+
+
+
+
+
+@foreach (var item in Model)
+{
+    <h1>@item.TotalAmount TL</h1>
+    <a class="btn btn-outline-dark mt-auto" asp-controller="Order"
+       asp-action="OrderDetail"
+       asp-route-id=@item.Id>Sipariş Ayrıntıları</a>
+
+}

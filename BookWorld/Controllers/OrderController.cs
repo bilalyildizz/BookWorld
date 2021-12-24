@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookWorld.Data;
 using BookWorld.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace BookWorld.Controllers
 {
@@ -17,6 +19,20 @@ namespace BookWorld.Controllers
         public OrderController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = _context.Order.Include(o => o.ApplicationUser).Where(o=>o.OrderSituation==true && o.MusteriId==userId);
+            return View(await result.ToListAsync());
+        }
+
+        public async Task<IActionResult> OrderDetail(int id)
+        {
+            var result = _context.Basket.Include(o => o.Book).Where(o=>o.OrderId==id);
+            return View(await result.ToListAsync());
         }
 
         // GET: Order

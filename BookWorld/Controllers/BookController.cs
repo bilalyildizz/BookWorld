@@ -9,9 +9,11 @@ using BookWorld.Data;
 using BookWorld.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookWorld.Controllers
 {
+   
     public class BookController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -29,6 +31,7 @@ namespace BookWorld.Controllers
             var applicationDbContext = _context.Book.Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Subcategory).Include(b => b.Translator);
             return View(await applicationDbContext.ToListAsync());
         }
+
         
         public async Task<IActionResult> BookDetail(int? id)
         {
@@ -48,22 +51,61 @@ namespace BookWorld.Controllers
             return View(book);
         }
 
-       
-        public async Task<IActionResult> BuyBook(UserBasketDto userBasketDto)
+        [Authorize]
+        public async Task<IActionResult> AddBookToBasket(UserBasketDto userBasketDto)
         {
+            
+            var orderResult = _context.Order
+                .Include(b => b.ApplicationUser)
+                .SingleOrDefault(b => b.MusteriId == userBasketDto.UserId && b.OrderSituation == false);
 
-            return View();
+            if (orderResult == null)
+            {
+                Order order = new Order
+                {
+                    MusteriId = userBasketDto.UserId,
+                };
+
+                _context.Add(order);
+               await  _context.SaveChangesAsync();
+
+                Basket basket = new Basket
+                {
+                    Number = userBasketDto.Number,
+                    BookId = userBasketDto.BookId,
+                    OrderId = order.Id
+                };
+                _context.Add(basket);
+               await  _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+
+            }
+            else
+            {
+                Basket basket = new Basket
+                {
+                    Number=userBasketDto.Number,
+                    BookId=userBasketDto.BookId,
+                    OrderId =orderResult.Id
+                };
+
+                _context.Add(basket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            
         }
 
         [HttpPost]
-        public IActionResult Search(string Ara)
+        public  IActionResult Search(string Ara)
         {
             var result =  _context.Book
                 .Include(b => b.Author)
                 .Include(b => b.Publisher)
                 .Include(b => b.Subcategory)
-                .Include(b => b.Translator).Where(b => b.Name.Contains("clue") == true).ToList();
-                 return View("~/Views/Home/Index.cshtml",result);
+                .Include(b => b.Translator).Where(b => b.Name.Contains(Ara) == true);
+                 return View("~/Views/Home/Index.cshtml",  result);
 
         }
 

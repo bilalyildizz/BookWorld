@@ -10,7 +10,6 @@
     <div class="container px-5 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-
             @foreach (var item in Model)
             {
                 <div class="col mb-5">
@@ -28,18 +27,19 @@
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-controller="Book"
-           asp-action="BookDetail"
-           asp-route-id=@item.Id>Ayrıntılar</a></div>
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto" asp-controller="Book"
+                                   asp-action="BookDetail"
+                                   asp-route-id=@item.Id>Ayrıntılar</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
+
+
         </div>
-        <a asp-controller="Home"
-           asp-action="Deneme"
-           asp-route-id="3255">Contact me</a>
+
     </div>
-    
-    
+
 </section>

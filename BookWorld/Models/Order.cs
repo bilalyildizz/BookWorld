@@ -13,8 +13,8 @@ namespace BookWorld.Models
         [ForeignKey("MusteriId")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        public DateTime OrderDate { get; set; }
-        public int TotalAmount { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public int? TotalAmount { get; set; }
         public bool OrderSituation { get; set; } = false;
 
     }

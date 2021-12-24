@@ -1,0 +1,16 @@
+﻿@model IEnumerable<BookWorld.Models.Basket>
+
+
+@{
+    ViewData["Title"] = "OrderDetail";
+}
+
+<h1>OrderDetail</h1>
+
+
+@foreach (var item in Model)
+{
+    <h1>@item.Book.Name</h1>
+
+}
+
