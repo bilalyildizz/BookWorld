@@ -3,14 +3,75 @@
 
 @{
     ViewData["Title"] = "OrderDetail";
+
+   
+        var totalAmount = 0;
+        foreach (var item in Model)
+        {
+            totalAmount += item.Book.Price;
+        }
+
+
 }
 
-<h1>OrderDetail</h1>
+<h1>Sipariş Detayı </h1>
 
 
-@foreach (var item in Model)
-{
-    <h1>@item.Book.Name</h1>
+<div class="woocommerce m-2">
+    <form method="post" action="#">
+        <table cellspacing="0" class="shop_table cart">
+            <thead>
+                <tr>
+                    <th class="product-thumbnail">&nbsp;</th>
+                    <th class="product-name">Kitap</th>
+                    <th class="product-price">Fiyat</th>
+                </tr>
+            </thead>
+            <tbody>
 
-}
+                @foreach (var item in Model)
+                {
+                    <tr class="cart_item">
+
+                        <td class="product-thumbnail">
+                            <a href="single-product.html">
+                                <img width="145" height="145" alt="poster_1_up"
+                                     class="shop_thumbnail" src="@Url.Content(item.Book.Image)" asp-append-version="true">
+                            </a>
+                        </td>
+
+                        <td class="product-name">
+                            <a href="single-product.html">@item.Book.Name</a>
+                        </td>
+
+                        <td class="product-price">
+                            <span class="amount">@item.Book.Price</span>
+                        </td>
+
+                    </tr>
+                }
+
+                <tr>
+                    <td class="actions" style="vertical-align:top;" colspan="6">
+
+                        <div>
+                            <h5>Toplam Ücret </h5>
+                        </div>
+                        <div>
+                            <h5>Toplam Ücret @totalAmount</h5>
+                        </div>
+
+                    </td>
+                </tr>
+
+              
+
+
+
+            </tbody>
+        </table>
+    </form>
+</div>
+
+
 

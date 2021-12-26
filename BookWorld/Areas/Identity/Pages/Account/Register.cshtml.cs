@@ -47,6 +47,14 @@ namespace BookWorld.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            public string Name { get; set; }
+            [Required]
+            public string Surname { get; set; }
+            [Required]
+            [DataType(DataType.Date)]
+            public DateTime? BirthDay { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }

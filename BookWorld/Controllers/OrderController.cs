@@ -29,6 +29,36 @@ namespace BookWorld.Controllers
             return View(await result.ToListAsync());
         }
 
+        public async Task<IActionResult> FinishOrder()
+        {
+            int totalAmount = 0;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _context.Order.Include(o => o.ApplicationUser).SingleOrDefaultAsync(o => o.OrderSituation == false && o.MusteriId == userId);
+
+            var basketPorducts = await  _context.Basket.Include(b=>b.Book).Where(b => b.OrderId == result.Id).ToListAsync();
+            foreach (var item in basketPorducts)
+            {
+                totalAmount += item.Book.Price;
+            }
+            
+            result.OrderSituation = true;
+            result.OrderDate = DateTime.Now;
+            result.TotalAmount = totalAmount;
+            if(result != null)
+            {
+                _context.Update(result);
+                await _context.SaveChangesAsync();
+
+            }
+
+ 
+            var basket = new List<Basket>(); 
+                return View("/Views/Basket/GetAllProducts.cshtml",basket);
+           
+        }
+
+
+
         public async Task<IActionResult> OrderDetail(int id)
         {
             var result = _context.Basket.Include(o => o.Book).Where(o=>o.OrderId==id);

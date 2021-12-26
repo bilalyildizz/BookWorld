@@ -52,10 +52,11 @@ namespace BookWorld.Data
                 Name = "Bilal",
                 Surname="Yıldız",
                 EmailConfirmed = false,
-            }, "Admin123*").GetAwaiter().GetResult();
+            }, "123").GetAwaiter().GetResult();
 
-
+     
             _userManager.AddToRoleAsync(_db.Users.FirstOrDefaultAsync(u => u.Email == "b181210028@sakarya.edu.tr").GetAwaiter().GetResult(), "Admin").GetAwaiter().GetResult();
+          
 
         }
     }

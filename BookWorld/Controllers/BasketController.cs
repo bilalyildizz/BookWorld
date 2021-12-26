@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookWorld.Data;
 using BookWorld.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BookWorld.Controllers
 {
@@ -21,6 +22,32 @@ namespace BookWorld.Controllers
         }
 
         // GET: Basket
+        [Authorize]
+        public  async Task<IActionResult>GetAllProducts()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var order =  _context.Order.SingleOrDefault(o => o.MusteriId == userId && o.OrderSituation == false);
+            
+            if(order != null)
+            {
+               var  basketProducts = _context.Basket.Include(b => b.Book).Where(b => b.OrderId == order.Id);
+
+            return View(await basketProducts.ToListAsync());
+            }
+
+            return View(new List<Basket>());
+            
+          
+        }
+
+        public async Task<IActionResult> DeleteBasketItem(int id)
+        {
+
+            var basket = await _context.Basket.FindAsync(id);
+            _context.Basket.Remove(basket);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetAllProducts");
+        }
 
         public async Task<IActionResult> Index()
         {

@@ -7,7 +7,7 @@
          var userId = user?.Id;
 
          
-         UserBasketDto userBasketDto = new UserBasketDto() {BookId=Model.Id ,UserId = userId,Number=5 };
+         UserBasketDto userBasketDto = new UserBasketDto {BookId=Model.Id ,UserId = userId,Number=5 };
 
 
      }
@@ -30,8 +30,8 @@
                 <img src="@Url.Content(Model.Image)" alt="">
                 <br><br>
                     <div>
-                        <div class="text-center">
-                            <a class="btn btn-outline-dark mt-auto" @Html.ActionLink("Book","AddBookToBasket",userBasketDto)>Ayrıntılar</a>
+                        <div class="btn btn-outline-dark mt-auto">
+                            @Html.ActionLink("Sepete Ekle","AddBookToBasket",userBasketDto)
                         </div>
                     </div>
             </div>
@@ -49,8 +49,6 @@
                                    min="1" max="10" placeholder="Number">
                             </div>
                             </form>
-                            <p class="card-text">Kitap Detayı </p>
-
                         </div>
                 </div>
         </div>

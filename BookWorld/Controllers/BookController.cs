@@ -55,6 +55,7 @@ namespace BookWorld.Controllers
         public async Task<IActionResult> AddBookToBasket(UserBasketDto userBasketDto)
         {
             
+            
             var orderResult = _context.Order
                 .Include(b => b.ApplicationUser)
                 .SingleOrDefault(b => b.MusteriId == userBasketDto.UserId && b.OrderSituation == false);
@@ -77,8 +78,15 @@ namespace BookWorld.Controllers
                 };
                 _context.Add(basket);
                await  _context.SaveChangesAsync();
+               
+                var book = await _context.Book
+               .Include(b => b.Author)
+               .Include(b => b.Publisher)
+               .Include(b => b.Subcategory)
+               .Include(b => b.Translator)
+               .FirstOrDefaultAsync(m => m.Id == userBasketDto.BookId);
 
-                return RedirectToAction(nameof(Index));
+                return View("/Views/Book/BookDetail.cshtml", book);
 
             }
             else
@@ -92,12 +100,19 @@ namespace BookWorld.Controllers
 
                 _context.Add(basket);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var book = await _context.Book
+                    .Include(b => b.Author)
+                    .Include(b => b.Publisher)
+                    .Include(b => b.Subcategory)
+                    .Include(b => b.Translator)
+                    .FirstOrDefaultAsync(m => m.Id == userBasketDto.BookId);
+
+                return View("/Views/Book/BookDetail.cshtml", book);
             }
             
         }
 
-        [HttpPost]
+       
         public  IActionResult Search(string Ara)
         {
             var result =  _context.Book
@@ -105,7 +120,7 @@ namespace BookWorld.Controllers
                 .Include(b => b.Publisher)
                 .Include(b => b.Subcategory)
                 .Include(b => b.Translator).Where(b => b.Name.Contains(Ara) == true);
-                 return View("~/Views/Home/Index.cshtml",  result);
+                 return View("~/Views/Home/Index.cshtml",  result.ToList());
 
         }
 

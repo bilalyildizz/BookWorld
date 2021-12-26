@@ -117,13 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Altkategori" xml:space="preserve">
+    <value>Subcategory</value>
+  </data>
   <data name="Ara" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="Bilgilerim" xml:space="preserve">
+    <value>My İnformation</value>
+  </data>
+  <data name="Giriş" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Kategori" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Kayıt" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Kitap" xml:space="preserve">
+    <value>Book</value>
   </data>
   <data name="Profil" xml:space="preserve">
     <value>Profile</value>
   </data>
+  <data name="Sepet" xml:space="preserve">
+    <value>Basket</value>
+  </data>
+  <data name="Sepetim" xml:space="preserve">
+    <value>My Basket</value>
+  </data>
+  <data name="Sipariş" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Siparişlerim" xml:space="preserve">
+    <value>My Orders</value>
+  </data>
+  <data name="Yayınevi" xml:space="preserve">
+    <value>Publisher</value>
+  </data>
+  <data name="Yazar" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Çevirmen" xml:space="preserve">
+    <value>Translater</value>
+  </data>
   <data name="Çıkış" xml:space="preserve">
     <value>Log Out</value>
+  </data>
+  <data name="İlçe" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="Şehir" xml:space="preserve">
+    <value>City</value>
   </data>
 </root>

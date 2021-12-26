@@ -1,0 +1,93 @@
+﻿@model IEnumerable<BookWorld.Models.Basket>
+
+@{
+    var totalAmount =0;
+    foreach (var item in Model)
+    {
+        totalAmount += item.Book.Price;
+    }
+
+}
+
+
+    <div class="woocommerce m-2">
+        <form method="post" action="#">
+            <table cellspacing="0" class="shop_table cart">
+                <thead>
+                    <tr>
+                        <th class="product-remove">&nbsp;</th>
+                        <th class="product-thumbnail">&nbsp;</th>
+                        <th class="product-name">Kitap</th>
+                        <th class="product-price">Fiyat</th>
+                        <th class="product-quantity">Adet</th>
+                        <th class="product-subtotal">Toplam Fiyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr class="cart_item">
+                            <td class="product-remove">
+
+                                <a title="Remove this item" class="btn remove btn-outline-dark mt-auto" asp-controller="Basket"
+                                   asp-action="DeleteBasketItem"
+                                   asp-route-id=@item.Id>×</a>
+                            </td>
+
+                            <td class="product-thumbnail">
+                                <a href="single-product.html">
+                                    <img width="145" height="145" alt="poster_1_up"
+                                         class="shop_thumbnail" src="@Url.Content(item.Book.Image)" asp-append-version="true">
+                                </a>
+                            </td>
+
+                            <td class="product-name">
+                                <a href="single-product.html">@item.Book.Name</a>
+                            </td>
+
+                            <td class="product-price">
+                                <span class="amount">@item.Book.Price</span>
+                            </td>
+
+                            <td class="product-quantity">
+                                <div class="quantity buttons_added">
+                                    <input type="button" class="minus" value="-">
+                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
+                                    <input type="button" class="plus" value="+">
+                                </div>
+                            </td>
+
+                            <td class="product-subtotal">
+                                <span class="amount">@item.Book.Price</span>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td class="actions" colspan="6">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Toplam Ücret @totalAmount</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="submit" value="Satın Al" asp-controller="Order"
+                                       asp-action="FinishOrder" 
+                                       name="update_cart" class="button">
+                            </div>
+
+
+
+                        </td>
+                    </tr>
+
+
+
+
+
+                </tbody>
+            </table>
+        </form>
+    </div>     
