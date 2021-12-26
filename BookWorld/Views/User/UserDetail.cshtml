@@ -1,0 +1,40 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model BookWorld.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "UserDetail";
+}
+
+@using System.Security.Claims
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+
+<div class="align-items-center ">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-sm">
+                <br>
+                <h4 class="text-center text-sm-start">Kullanıcı Bilgileri</h4>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <img class="justify-content-center" src="https://img.icons8.com/bubbles/100/000000/user.png">
+                </div>
+
+                <h5>Ad</h5>
+                <h6>@Model.Name</h6>
+                <h5>Soyad</h5>
+                <h6>@Model.Surname</h6>
+                <h5>E-mail</h5>
+                <h6>@Model.Email</h6>
+                <h5>Dogum Tarihi</h5>
+                <h6>@Model.BirthDay</h6>
+                <div class="container d-flex justify-content-center align-items-center">
+
+                    <input onclick="document.location.reload" class="btn btn-primary" type="submit" value="Bilgileri Güncelle">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
